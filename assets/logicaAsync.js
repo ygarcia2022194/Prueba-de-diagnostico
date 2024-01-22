@@ -1,20 +1,21 @@
-function enviarDatos(){
+async function enviarDatos(){
     const nombre = document.getElementById('nombre').value;
 
-    enviarDatosAlServidor(nombre)
-        .then(mostrarMensajeBienvenida)
-        .catch(mostrarMensajeError)
+    try{
+        const resultado = await enviarDatosAlServidor(nombre);
+        mostrarMensajeBienvenida(resultado);
+    }catch(mensaje){
+        mostrarMensajeError(mensaje);
+    }
+
 }
 
 function enviarDatosAlServidor(nombre){
     return new Promise((resolve,reject)=>{
         setTimeout(()=>{
             const autorizado = (nombre.toLowerCase() == 'papavictor');
-            if(autorizado){
-                resolve('Bienvenido al sistema');
-            }else{
-                reject('Usted no esta autorizado');
-            }
+            const resultado = autorizado ? 'Yo soy el cordi!!' : 'Acesso no autorizado!!'
+            resultado ? resolve(resultado) : reject(resultado);
         }, 2000);
     });
 }
